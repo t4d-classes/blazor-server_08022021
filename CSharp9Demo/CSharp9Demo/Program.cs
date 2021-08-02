@@ -9,6 +9,12 @@ using System.Collections;
 
 // Console.WriteLine("Hello World!");
 
+// ----------------------------------------------------------------------------------------------------------
+// C# 9 Feature Demo 2: Typeless New Operator
+//
+// A number useful language features have been added to make working with types easier
+//
+// For example, the `new` operator can be used to create new instances based upon the type of the variable
 
 //using CSharp9Demo.Features.TypelessNewOperator;
 
@@ -43,41 +49,51 @@ using System.Collections;
 //Person p1 = new() { FirstName = "Bob", LastName = "Smith" };
 //Person p2 = new() { FirstName = "Bob", LastName = "Smith" };
 
-//using CSharp9Demo.Features.Records;
+// ----------------------------------------------------------------------------------------------------------
+// C# 9 Feature Demo 3: Record Types
 
-//Person p1 = new("Bob", "Smith");
-//Person p2 = new("Bob", "Smith");
+using CSharp9Demo.Features.Records;
 
-////Console.WriteLine(p1 == p2);
-////Console.WriteLine(ReferenceEquals(p1, p2));
+Person p1 = new("Bob", "Smith");
+Person p2 = new("Bob", "Smith");
 
-//var (fName, lName) = p1;
-
-//Console.WriteLine(fName);
-//Console.WriteLine(lName);
-
-
-
-//Console.WriteLine(person.FirstName);
-
-////person.FirstName = "Tim";
-
-//Person p2 = person with {  FirstName="Tim" };
-
-//Console.WriteLine(p2.FirstName);
-//Console.WriteLine(p2.LastName);
-
-
-//using CSharp9Demo.Features.Records;
-
-//Address addr = new() {
-//  Street = "123 Oak Lane",
-//  City = "Santa Fe",
-//  State = "NM",
-//  ZipCode="12345",
+//Person p1 = new() {
+//  FirstName = "Bob",
+//  LastName = "Smith",
 //};
 
-//addr.State = "MN";
+//Person p2 = new()
+//{
+//  FirstName = "Bob",
+//  LastName = "Smith",
+//};
+
+
+System.Console.WriteLine(p1.FirstName);
+
+// p1.FirstName = "Sally"; // by default, record properties are readonly
+
+// different objects, but fields have the same values
+// for fields that point to objects, only the object reference is compared
+System.Console.WriteLine(p1 == p2);
+
+// different object references
+System.Console.WriteLine(ReferenceEquals(p1, p2)); // false
+
+// create a new record with a copy of the field from p1 and a new value for FirstName
+var p3 = p1 with { FirstName = "Sally" };
+
+System.Console.WriteLine(p1 == p3); // false
+System.Console.WriteLine(p1.LastName == p3.LastName); //  true
+
+// deconstructing
+var (fName, lName) = p3;
+
+System.Console.WriteLine(fName);
+System.Console.WriteLine(lName);
+
+// ----------------------------------------------------------------------------------------------------------
+// C# 9 Feature Demo 5: Pattern Matching Enhancements
 
 //bool isLetter(char c)
 //{
@@ -135,6 +151,10 @@ using System.Collections;
 //new SkipLocalsInitDemo().ZeroLocals();
 //new SkipLocalsInitDemo().SkipZeroLocals();
 
+// ----------------------------------------------------------------------------------------------------------
+// C# 9 Feature Demo 7: Support for Code Generators
+//
+
 //using CSharp9Demo.Features.CodeGenerators.PartialMethods;
 
 //Person p = new() {
@@ -145,9 +165,9 @@ using System.Collections;
 //Console.WriteLine(p.FullName);
 //Console.WriteLine(p.GetFullName());
 
-using CSharp9Demo.Features.CodeGenerators.ModuleInitializers;
+//using CSharp9Demo.Features.CodeGenerators.ModuleInitializers;
 
-Console.WriteLine(ModuleInitializerDemo.Text);
+//Console.WriteLine(ModuleInitializerDemo.Text);
 
 
 
