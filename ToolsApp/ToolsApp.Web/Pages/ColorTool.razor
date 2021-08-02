@@ -1,16 +1,26 @@
 ﻿@page "/color-tool"
 
+@using ToolsApp.Models.Colors
+
 <header>
   <h3>Color Tool</h3>
 </header>
 
 <ul>
-  <li>red</li>
-  <li>green</li>
-  <li>blue</li>
+  @foreach (var color in Colors)
+  {
+    <li>@color.Name - @color.Hexcode</li>
+  }
 </ul>
 
 
 @code {
+
+  private List<Color> Colors { get; set; } = new()
+  {
+    new(1, "red", "ff0000"),
+    new(2, "green", "00ff00"),
+    new(3, "blue", "0000ff"),
+  };
 
 }
