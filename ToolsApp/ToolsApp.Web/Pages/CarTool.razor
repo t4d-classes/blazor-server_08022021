@@ -1,5 +1,7 @@
 ﻿@page "/car-tool"
 
+@using ToolsApp.Models.Cars;
+
 <header>
   <h3>Car Tool</h3>
 </header>
@@ -16,25 +18,25 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>Tesla</td>
-      <td>S</td>
-      <td>2019</td>
-      <td>blue</td>
-      <td>120000</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Ford</td>
-      <td>Fusion Hybrid</td>
-      <td>2020</td>
-      <td>green</td>
-      <td>45000</td>
-    </tr>
+    @foreach (var car in Cars)
+    {
+      <tr>
+        <td>@car.Id</td>
+        <td>@car.Make</td>
+        <td>@car.Model</td>
+        <td>@car.Year</td>
+        <td>@car.Color</td>
+        <td>@car.Price</td>
+      </tr>
+    }
   </tbody>
 </table>
 
 @code {
+
+  private List<Car> Cars { get; set; } = new() {
+    new(1, "Tesla", "S", 2019, "blue", 120000.0M),
+    new(2, "Ford", "Fusion Hybrid", 2020, "green", 45000.0M),
+  };
 
 }
