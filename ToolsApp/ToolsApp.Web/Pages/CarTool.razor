@@ -5,7 +5,7 @@
 
 <ToolHeader HeaderText="Car Tool" />
 
-<CarTable Cars="@Cars" OnDeleteCar="RemoveCar" />
+<CarTable Cars="@Cars" EditCarId="@editCarId" OnEditCar="EditCar" OnDeleteCar="RemoveCar" />
 
 <CarForm ButtonText="Add Car" OnSubmitCar="AppendCar" />
 
@@ -17,6 +17,12 @@
     new(1, "Tesla", "S", 2019, "blue", 120000.0M),
     new(2, "Ford", "Fusion Hybrid", 2020, "green", 45000.0M),
   };
+
+  private int editCarId = -1;
+
+  private void EditCar(int carId) {
+    editCarId = carId;
+  }
 
   private void AppendCar(NewCar car)
   {
