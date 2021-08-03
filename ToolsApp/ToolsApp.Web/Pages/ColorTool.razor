@@ -2,9 +2,10 @@
 
 @using ToolsApp.Models.Colors
 
-<header>
-  <h3>Color Tool</h3>
-</header>
+<ToolHeader HeaderText="Color Tool" />
+
+<ToolHeader HeaderText="@headerText" />
+
 
 <ul>
   @foreach (var color in Colors)
@@ -23,7 +24,7 @@
     Hexcode:
     <input type="text" @bind="@AddColorForm.Hexcode" />
     @*<input type="text" value="@AddColorForm.Hexcode"
-           @onchange="@( (ChangeEventArgs __e) => AddColorForm.Hexcode = __e.Value.ToString() )" />*@
+      @onchange="@( (ChangeEventArgs __e) => AddColorForm.Hexcode = __e.Value.ToString() )" />*@
   </label>
 
   <button type="button" @onclick="AppendColor">Add Color</button>
@@ -33,16 +34,19 @@
 
 @code {
 
+  private string headerText = "Color Tool 2";
+
   private ColorForm AddColorForm = new();
 
   private List<Color> Colors { get; set; } = new()
   {
-    new(1, "red", "ff0000"),
-    new(2, "green", "00ff00"),
-    new(3, "blue", "0000ff"),
-  };
+      new(1, "red", "ff0000"),
+      new(2, "green", "00ff00"),
+      new(3, "blue", "0000ff"),
+    };
 
-  private void AppendColor() {
+  private void AppendColor()
+  {
     Colors.Add(
       new(Colors.Max(c => c.Id) + 1, AddColorForm.Name, AddColorForm.Hexcode)
     );
@@ -50,7 +54,8 @@
     AddColorForm = new();
   }
 
-  class ColorForm {
+  class ColorForm
+  {
     public string Name { get; set; } = "";
     public string Hexcode { get; set; } = "";
   }

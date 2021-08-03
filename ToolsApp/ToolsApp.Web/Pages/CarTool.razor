@@ -32,11 +32,73 @@
   </tbody>
 </table>
 
+<form>
+  <label>
+    Make:
+    <input type="text" @bind="@AddCarForm.Make" />
+  </label>
+
+  <label>
+    Model:
+    <input type="text" @bind="@AddCarForm.Model" />
+  </label>
+
+  <label>
+    Year:
+    <input type="text" @bind="@AddCarForm.Year" />
+  </label>
+
+  <label>
+    Color:
+    <input type="text" @bind="@AddCarForm.Color" />
+  </label>
+
+  <label>
+    Price:
+    <input type="text" @bind="@AddCarForm.Price" />
+  </label>
+
+
+  <button type="button" @onclick="AppendCar">Add Car</button>
+
+</form>
+
+
+
+
 @code {
 
-  private List<Car> Cars { get; set; } = new() {
+  private CarForm AddCarForm = new();
+
+  private List<Car> Cars { get; set; } = new()
+  {
     new(1, "Tesla", "S", 2019, "blue", 120000.0M),
     new(2, "Ford", "Fusion Hybrid", 2020, "green", 45000.0M),
   };
 
+  private void AppendCar()
+  {
+    Cars.Add(
+      new(
+        Cars.Max(c => c.Id) + 1,
+        AddCarForm.Make,
+        AddCarForm.Model,
+        AddCarForm.Year,
+        AddCarForm.Color,
+        AddCarForm.Price
+      )
+    );
+
+    AddCarForm = new();
+  }
+
+
+  class CarForm
+  {
+    public string Make { get; set; } = "";
+    public string Model { get; set; } = "";
+    public int Year { get; set; } = 1900;
+    public string Color { get; set; } = "";
+    public decimal Price { get; set; } = 0;
+  }
 }
