@@ -1,0 +1,35 @@
+﻿@using ToolsApp.Models.Cars;
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Year</th>
+      <th>Color</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var car in Cars)
+    {
+      <tr>
+        <td>@car.Id</td>
+        <td>@car.Make</td>
+        <td>@car.Model</td>
+        <td>@car.Year</td>
+        <td>@car.Color</td>
+        <td>@car.Price</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+
+@code {
+
+  [Parameter]
+  public IEnumerable<Car> Cars { get; set; }
+
+}

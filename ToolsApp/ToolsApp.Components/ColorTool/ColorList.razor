@@ -1,0 +1,15 @@
+﻿@using ToolsApp.Models.Colors
+
+<ul>
+  @foreach (var color in Colors)
+  {
+    <li>@color.Name - @color.Hexcode</li>
+  }
+</ul>
+
+@code {
+
+  [Parameter]
+  public IEnumerable<Color> Colors { get; set; }
+
+}

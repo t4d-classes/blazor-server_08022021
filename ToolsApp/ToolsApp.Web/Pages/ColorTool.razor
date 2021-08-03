@@ -1,18 +1,11 @@
 ﻿@page "/color-tool"
 
 @using ToolsApp.Models.Colors
+@using ToolsApp.Components.ColorTool
 
 <ToolHeader HeaderText="Color Tool" />
 
-<ToolHeader HeaderText="@headerText" />
-
-
-<ul>
-  @foreach (var color in Colors)
-  {
-    <li>@color.Name - @color.Hexcode</li>
-  }
-</ul>
+<ColorList Colors="@Colors" />
 
 <form>
   <label>
@@ -33,8 +26,6 @@
 
 
 @code {
-
-  private string headerText = "Color Tool 2";
 
   private ColorForm AddColorForm = new();
 
