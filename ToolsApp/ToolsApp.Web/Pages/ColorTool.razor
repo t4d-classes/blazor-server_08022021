@@ -13,18 +13,24 @@
 
 @code {
 
-  private List<Color> Colors { get; set; } = new()
-  {
-      new(1, "red", "ff0000"),
-      new(2, "green", "00ff00"),
-      new(3, "blue", "0000ff"),
-    };
+  private List<Color> Colors { get; set; } = new();
+  //{
+  //    new(1, "red", "ff0000"),
+  //    new(2, "green", "00ff00"),
+  //    new(3, "blue", "0000ff"),
+  //  };
 
   private void AppendColor(NewColor color)
   {
+    var newColorId = Colors.Any() ? Colors.Max(c => c.Id) + 1 : 1;
+
+
     Colors.Add(
-      new(Colors.Max(c => c.Id) + 1,
-      color.Name, color.Hexcode)
+      new(
+        newColorId,
+        color.Name,
+        color.Hexcode
+      )
     );
   }
 

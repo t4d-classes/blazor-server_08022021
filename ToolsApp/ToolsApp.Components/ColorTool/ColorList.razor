@@ -1,15 +1,19 @@
 ﻿@using ToolsApp.Models.Colors
 
 <ul>
-  @foreach (var color in Colors)
-  {
-    <li>@color.Name - @color.Hexcode</li>
+  @if (Colors.Count() == 0) {
+    <li>No colors</li>
+  } else { 
+    @foreach (var color in Colors)
+    {
+      <li>@color.Name - @color.Hexcode</li>
+    }
   }
 </ul>
 
 @code {
 
   [Parameter]
-  public IEnumerable<Color> Colors { get; set; }
+  public IEnumerable<Color> Colors { get; set; } = new List<Color>();
 
 }
