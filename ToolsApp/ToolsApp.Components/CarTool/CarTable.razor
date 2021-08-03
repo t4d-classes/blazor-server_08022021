@@ -9,19 +9,24 @@
       <th>Year</th>
       <th>Color</th>
       <th>Price</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    @foreach (var car in Cars)
+    @if (!Cars.Any())
     {
       <tr>
-        <td>@car.Id</td>
-        <td>@car.Make</td>
-        <td>@car.Model</td>
-        <td>@car.Year</td>
-        <td>@car.Color</td>
-        <td>@car.Price</td>
+        <td colspan="7">
+          No cars.
+        </td>
       </tr>
+    }
+    else
+    {
+      @foreach (var car in Cars)
+      {
+        <CarViewRow Car="@car" OnDeleteCar="OnDeleteCar" />
+      }
     }
   </tbody>
 </table>
@@ -31,5 +36,8 @@
 
   [Parameter]
   public IEnumerable<Car> Cars { get; set; }
+
+  [Parameter]
+  public EventCallback<int> OnDeleteCar { get; set; }
 
 }

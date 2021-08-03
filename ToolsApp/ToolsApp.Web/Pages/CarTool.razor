@@ -5,7 +5,7 @@
 
 <ToolHeader HeaderText="Car Tool" />
 
-<CarTable Cars="@Cars" />
+<CarTable Cars="@Cars" OnDeleteCar="RemoveCar" />
 
 <CarForm ButtonText="Add Car" OnSubmitCar="AppendCar" />
 
@@ -30,6 +30,10 @@
         car.Price
       )
     );
+  }
+
+  private void RemoveCar(int carId) {
+    Cars.Remove(Cars.Find(c => c.Id == carId));
   }
 
 }

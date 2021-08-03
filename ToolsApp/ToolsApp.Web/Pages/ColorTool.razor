@@ -22,7 +22,8 @@
 
   private void AppendColor(NewColor color)
   {
-    var newColorId = Colors.Any() ? Colors.Max(c => c.Id) + 1 : 1;
+    var newColorId = Colors.Any()
+      ? Colors.Max(c => c.Id) + 1 : 1;
 
 
     Colors.Add(
