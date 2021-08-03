@@ -1,0 +1,71 @@
+﻿@using ToolsApp.Models.Cars
+
+<form>
+  <label>
+    Make:
+    <input type="text" @bind="@carForm.Make" />
+  </label>
+
+  <label>
+    Model:
+    <input type="text" @bind="@carForm.Model" />
+  </label>
+
+  <label>
+    Year:
+    <input type="text" @bind="@carForm.Year" />
+  </label>
+
+  <label>
+    Color:
+    <input type="text" @bind="@carForm.Color" />
+  </label>
+
+  <label>
+    Price:
+    <input type="text" @bind="@carForm.Price" />
+  </label>
+
+
+  <button type="button" @onclick="submitCar">@ButtonText</button>
+
+
+</form>
+
+
+@code {
+
+  [Parameter]
+  public string ButtonText { get; set; } = "Submit Car";
+
+  [Parameter]
+  public EventCallback<NewCar> OnSubmitCar { get; set; }
+
+  private CarFormModel carForm = new();
+
+  private async void submitCar()
+  {
+    await OnSubmitCar.InvokeAsync(
+      new(
+        carForm.Make,
+        carForm.Model,
+        carForm.Year,
+        carForm.Color,
+        carForm.Price
+      )
+    );
+
+    carForm = new();
+  }
+
+  class CarFormModel
+  {
+    public string Make { get; set; } = "";
+    public string Model { get; set; } = "";
+    public int Year { get; set; } = 1900;
+    public string Color { get; set; } = "";
+    public decimal Price { get; set; } = 0;
+  }
+
+
+}
