@@ -1,6 +1,7 @@
 ﻿@page "/color-tool"
 
-@using ToolsApp.Models.Colors
+@using Color = ToolsApp.Models.Colors.Color
+@using NewColor = ToolsApp.Models.Colors.NewColor
 @using ToolsApp.Components.ColorTool
 @using ToolsApp.Services.Colors
 
@@ -11,7 +12,7 @@
 <ColorList Colors="@Colors" />
 
 <ColorForm ButtonText="Add Color"
-  OnSubmitColor="@AppendColor"/>
+           OnSubmitColor="@AppendColor" />
 
 
 @code {

@@ -8,11 +8,14 @@
 
 <ToolHeader HeaderText="Car Tool" />
 
-<CarTable Cars="@Cars" EditCarId="@editCarId"
+@*<CarTable Cars="@Cars" EditCarId="@editCarId"
           OnEditCar="EditCar" OnDeleteCar="RemoveCar"
           OnSaveCar="ReplaceCar" OnCancelCar="CancelCar" />
 
-<CarForm ButtonText="Add Car" OnSubmitCar="AppendCar" />
+<CarForm ButtonText="Add Car" OnSubmitCar="AppendCar" />*@
+
+<CarDataGrid Cars="@Cars" OnAddCar="AppendCar"
+  OnSaveCar="ReplaceCar" OnDeleteCar="RemoveCar" />
 
 
 @code {

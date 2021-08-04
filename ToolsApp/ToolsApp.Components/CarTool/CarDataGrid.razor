@@ -1,0 +1,97 @@
+﻿@using ToolsApp.Models.Cars
+
+<DataGrid @ref="dataGrid"
+          TItem="CarRow"
+          Data="@CarRows"
+          Editable="true"
+          EditMode="DataGridEditMode.Inline"
+          RowInserted="@onCarInserted"
+          RowUpdated="@onCarUpdated"
+          RowRemoved="@onCarRemoved"
+          UseInternalEditing="false">
+
+  <DataGridColumn TItem="CarRow" Field="Id" Caption="Id" Editable="false" />
+  <DataGridColumn TItem="CarRow" Field="Make" Caption="Make" Editable="true" />
+  <DataGridColumn TItem="CarRow" Field="Model" Caption="Model" Editable="true" />
+  <DataGridColumn TItem="CarRow" Field="Year" Caption="Year" Editable="true" />
+  <DataGridColumn TItem="CarRow" Field="Color" Caption="Color" Editable="true" />
+  <DataGridColumn TItem="CarRow" Field="Price" Caption="Price" Editable="true" />
+
+  <DataGridCommandColumn TItem="CarRow" />
+
+</DataGrid>
+
+@code {
+
+
+  [Parameter]
+  public IEnumerable<Car> Cars { get; set; }
+
+  [Parameter]
+  public EventCallback<NewCar> OnAddCar { get; set; }
+
+  [Parameter]
+  public EventCallback<Car> OnSaveCar { get; set; }
+
+  [Parameter]
+  public EventCallback<int> OnDeleteCar { get; set; }
+
+  private DataGrid<CarRow> dataGrid;
+
+  private IEnumerable<CarRow> CarRows { get; set; }
+
+  protected override void OnParametersSet()
+  {
+    CarRows = Cars.Select(car => new CarRow() {
+      Id = car.Id,
+      Make = car.Make,
+      Model = car.Model,
+      Year = car.Year,
+      Color = car.Color,
+      Price = car.Price
+    }).ToList();
+  }
+
+  private async Task onCarInserted(SavedRowItem<CarRow, Dictionary<string, object>> e)
+  {
+    var insertedCar = new NewCar(
+      e.Values["Make"].ToString(),
+      e.Values["Model"].ToString(),
+      Convert.ToInt32(e.Values["Year"]),
+      e.Values["Color"].ToString(),
+      Convert.ToDecimal(e.Values["Price"])
+    );
+
+    await OnAddCar.InvokeAsync(insertedCar);
+    await dataGrid.Cancel();
+  }
+
+  private async Task onCarUpdated(SavedRowItem<CarRow, Dictionary<string, object>> e)
+  {
+    var updatedCar = new Car(
+      e.Item.Id,
+      e.Values["Make"].ToString(),
+      e.Values["Model"].ToString(),
+      Convert.ToInt32(e.Values["Year"]),
+      e.Values["Color"].ToString(),
+      Convert.ToDecimal(e.Values["Price"])
+    );
+
+    await OnSaveCar.InvokeAsync(updatedCar);
+  }
+
+  private async Task onCarRemoved(CarRow car)
+  {
+    await OnDeleteCar.InvokeAsync(car.Id);
+  }
+
+  class CarRow {
+    public int Id { get; set; }
+    public string Make { get; set; }
+    public string Model { get; set; }
+    public int Year { get; set; }
+    public string Color { get; set; }
+    public decimal Price { get; set; }
+  }
+
+}

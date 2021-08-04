@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
+
 using ToolsApp.Web.Data;
 using ToolsApp.Services.Colors;
 using ToolsApp.Services.Cars;
@@ -35,6 +39,14 @@ namespace ToolsApp.Web
       services.AddDbContext<ToolsAppContext>(options => {
         options.UseSqlServer(Configuration["ConnectionString"]);
       });
+
+      services
+        .AddBlazorise(options =>
+        {
+          options.ChangeTextOnKeyPress = true; // optional
+        })
+        .AddBootstrapProviders()
+        .AddFontAwesomeIcons();
 
       services.AddRazorPages();
       services.AddServerSideBlazor();
