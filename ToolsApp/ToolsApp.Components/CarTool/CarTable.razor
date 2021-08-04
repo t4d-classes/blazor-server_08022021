@@ -27,7 +27,7 @@
       {
         @if (EditCarId == car.Id)
         {
-          <CarEditRow Car="@car" />
+          <CarEditRow Car="@car" OnSaveCar="OnSaveCar" OnCancelCar="OnCancelCar" />
         }
         else
         {
@@ -53,5 +53,12 @@
 
   [Parameter]
   public EventCallback<int> OnDeleteCar { get; set; }
+
+  [Parameter]
+  public EventCallback<Car> OnSaveCar { get; set; }
+
+  [Parameter]
+  public EventCallback OnCancelCar { get; set; }
+
 
 }
