@@ -2,6 +2,9 @@
 
 @using ToolsApp.Models.Colors
 @using ToolsApp.Components.ColorTool
+@using ToolsApp.Services.Colors
+
+@inject IColorsService colorsService
 
 <ToolHeader HeaderText="Color Tool" />
 
@@ -13,26 +16,16 @@
 
 @code {
 
-  private List<Color> Colors { get; set; } = new();
-  //{
-  //    new(1, "red", "ff0000"),
-  //    new(2, "green", "00ff00"),
-  //    new(3, "blue", "0000ff"),
-  //  };
+  private IEnumerable<Color> Colors { get; set; } = new List<Color>();
+
+  protected override void OnInitialized()
+  {
+    Colors = colorsService.All();
+  }
 
   private void AppendColor(NewColor color)
   {
-    var newColorId = Colors.Any()
-      ? Colors.Max(c => c.Id) + 1 : 1;
-
-
-    Colors.Add(
-      new(
-        newColorId,
-        color.Name,
-        color.Hexcode
-      )
-    );
+    Colors = colorsService.Append(color).All();
   }
 
 }

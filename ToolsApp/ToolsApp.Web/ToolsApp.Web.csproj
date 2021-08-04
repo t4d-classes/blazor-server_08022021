@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ToolsApp.Components\ToolsApp.Components.csproj" />
     <ProjectReference Include="..\ToolsApp.Models\ToolsApp.Models.csproj" />
+    <ProjectReference Include="..\ToolsApp.Services\ToolsApp.Services.csproj" />
   </ItemGroup>
 
 </Project>
