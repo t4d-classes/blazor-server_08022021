@@ -1,9 +1,12 @@
 ﻿@using ToolsApp.Models.Colors
 
 <ul>
-  @if (Colors.Count() == 0) {
+  @if (Colors.Count() == 0)
+  {
     <li>No colors</li>
-  } else { 
+  }
+  else
+  {
     @foreach (var color in Colors)
     {
       <li>@color.Name - @color.Hexcode</li>
