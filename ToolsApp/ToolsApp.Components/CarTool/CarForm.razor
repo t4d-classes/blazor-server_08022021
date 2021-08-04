@@ -1,36 +1,47 @@
-﻿@using ToolsApp.Models.Cars
+﻿@using System.ComponentModel.DataAnnotations
+@using ToolsApp.Models.Cars
+@using ToolsApp.Components.Validators
 
-<form>
+<EditForm Model="@carForm" OnValidSubmit="submitCar">
+
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+
   <label>
     Make:
     <input type="text" @bind="@carForm.Make" />
+    <ValidationMessage For="() => carForm.Make" />
   </label>
 
   <label>
     Model:
     <input type="text" @bind="@carForm.Model" />
+    <ValidationMessage For="() => carForm.Model" />
   </label>
 
   <label>
     Year:
     <input type="text" @bind="@carForm.Year" />
+    <ValidationMessage For="() => carForm.Year" />
   </label>
 
   <label>
     Color:
     <input type="text" @bind="@carForm.Color" />
+    <ValidationMessage For="() => carForm.Color" />
   </label>
 
   <label>
     Price:
     <input type="text" @bind="@carForm.Price" />
+    <ValidationMessage For="() => carForm.Price" />
   </label>
 
 
-  <button type="button" @onclick="submitCar">@ButtonText</button>
+  <button>@ButtonText</button>
 
 
-</form>
+</EditForm>
 
 
 @code {
@@ -60,10 +71,20 @@
 
   class CarFormModel
   {
+    [Required]
     public string Make { get; set; } = "";
+
+    [Required]
     public string Model { get; set; } = "";
+
+    [Required]
+    [MinCarYear()]
     public int Year { get; set; } = 1900;
+
+    [Required]
     public string Color { get; set; } = "";
+
+    [Required]
     public decimal Price { get; set; } = 0;
   }
 
