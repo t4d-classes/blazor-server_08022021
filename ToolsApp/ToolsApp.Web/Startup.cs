@@ -9,10 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToolsApp.Web.Data;
 
+using Microsoft.EntityFrameworkCore;
+
+using ToolsApp.Web.Data;
 using ToolsApp.Services.Colors;
 using ToolsApp.Services.Cars;
+using ToolsApp.DataAccess;
 
 namespace ToolsApp.Web
 {
@@ -29,12 +32,19 @@ namespace ToolsApp.Web
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddDbContext<ToolsAppContext>(options => {
+        options.UseSqlServer(Configuration["ConnectionString"]);
+      });
+
       services.AddRazorPages();
       services.AddServerSideBlazor();
       services.AddSingleton<WeatherForecastService>();
 
-      services.AddScoped<IColorsService, ColorsServiceMemory>();
+      // services.AddScoped<IColorsService, ColorsServiceMemory>();
       services.AddScoped<ICarsService, CarsServiceMemory>();
+
+      services.AddScoped<ColorsData>();
+      services.AddScoped<IColorsService, ColorsServiceDatabase>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
