@@ -41,10 +41,12 @@ namespace ToolsApp.Web
       services.AddSingleton<WeatherForecastService>();
 
       // services.AddScoped<IColorsService, ColorsServiceMemory>();
-      services.AddScoped<ICarsService, CarsServiceMemory>();
+      // services.AddScoped<ICarsService, CarsServiceMemory>();
 
       services.AddScoped<ColorsData>();
+      services.AddScoped<CarsData>();
       services.AddScoped<IColorsService, ColorsServiceDatabase>();
+      services.AddScoped<ICarsService, CarsServiceDatabase>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

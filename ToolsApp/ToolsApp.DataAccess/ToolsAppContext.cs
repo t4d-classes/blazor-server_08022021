@@ -10,5 +10,6 @@ namespace ToolsApp.DataAccess
     { }
 
     public DbSet<Color> Colors { get; set; }
+    public DbSet<Car> Cars { get; set; }
   }
 }
