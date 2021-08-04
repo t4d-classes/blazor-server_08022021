@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using ToolsApp.Web.Data;
 
 using ToolsApp.Services.Colors;
+using ToolsApp.Services.Cars;
 
 namespace ToolsApp.Web
 {
@@ -33,6 +34,7 @@ namespace ToolsApp.Web
       services.AddSingleton<WeatherForecastService>();
 
       services.AddScoped<IColorsService, ColorsServiceMemory>();
+      services.AddScoped<ICarsService, CarsServiceMemory>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

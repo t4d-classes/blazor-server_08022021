@@ -2,26 +2,52 @@
 
 @using ToolsApp.Models.Cars
 @using ToolsApp.Components.CarTool
+@using ToolsApp.Services.Cars
+
+@inject ICarsService carsSvc
 
 <ToolHeader HeaderText="Car Tool" />
 
-<CarTable
-  Cars="@Cars" EditCarId="@editCarId"
-  OnEditCar="EditCar" OnDeleteCar="RemoveCar"
-  OnSaveCar="ReplaceCar" OnCancelCar="CancelCar" />
+<CarTable Cars="@Cars" EditCarId="@editCarId"
+          OnEditCar="EditCar" OnDeleteCar="RemoveCar"
+          OnSaveCar="ReplaceCar" OnCancelCar="CancelCar" />
 
 <CarForm ButtonText="Add Car" OnSubmitCar="AppendCar" />
 
 
 @code {
 
-  private List<Car> Cars { get; set; } = new()
+  private IEnumerable<Car> Cars { get; set; } = new List<Car>()
   {
     new(1, "Tesla", "S", 2019, "blue", 120000.0M),
     new(2, "Ford", "Fusion Hybrid", 2020, "green", 45000.0M),
   };
 
   private int editCarId = -1;
+
+  protected override void OnInitialized()
+  {
+    Cars = carsSvc.All();
+  }
+
+
+  private void AppendCar(NewCar car)
+  {
+    Cars = carsSvc.Append(car).All();
+    editCarId = -1;
+  }
+
+  private void ReplaceCar(Car car)
+  {
+    Cars = carsSvc.Replace(car).All();
+    editCarId = -1;
+  }
+
+  private void RemoveCar(int carId)
+  {
+    Cars = carsSvc.Remove(carId).All();
+    editCarId = -1;
+  }
 
   private void EditCar(int carId)
   {
@@ -30,33 +56,6 @@
 
   private void CancelCar()
   {
-    editCarId = -1;
-  }
-
-  private void AppendCar(NewCar car)
-  {
-    Cars.Add(
-      new(
-        Cars.Max(c => c.Id) + 1,
-        car.Make,
-        car.Model,
-        car.Year,
-        car.Color,
-        car.Price
-      )
-    );
-    editCarId = -1;
-  }
-
-  private void ReplaceCar(Car car)
-  {
-    int carIndex = Cars.FindIndex(c => c.Id == car.Id);
-    Cars[carIndex] = car;
-    editCarId = -1;
-  }
-
-  private void RemoveCar(int carId) {
-    Cars.Remove(Cars.Find(c => c.Id == carId));
     editCarId = -1;
   }
 
