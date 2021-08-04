@@ -25,27 +25,27 @@
 
   private int editCarId = -1;
 
-  protected override void OnInitialized()
+  protected override async Task OnInitializedAsync()
   {
-    Cars = carsSvc.All();
+    Cars = await carsSvc.All();
   }
 
 
-  private void AppendCar(NewCar car)
+  private async Task AppendCar(NewCar car)
   {
-    Cars = carsSvc.Append(car).All();
+    Cars = await (await carsSvc.Append(car)).All();
     editCarId = -1;
   }
 
-  private void ReplaceCar(Car car)
+  private async Task ReplaceCar(Car car)
   {
-    Cars = carsSvc.Replace(car).All();
+    Cars = await (await carsSvc.Replace(car)).All();
     editCarId = -1;
   }
 
-  private void RemoveCar(int carId)
+  private async Task RemoveCar(int carId)
   {
-    Cars = carsSvc.Remove(carId).All();
+    Cars = await (await carsSvc.Remove(carId)).All();
     editCarId = -1;
   }
 
