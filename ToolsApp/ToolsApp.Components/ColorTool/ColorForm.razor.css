@@ -1,3 +1,7 @@
 ﻿label {
   display: block;
 }
+
+::deep .validation-message {
+  display: inline;
+}

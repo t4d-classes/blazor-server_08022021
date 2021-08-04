@@ -1,5 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using ToolsApp.Models.Colors
+@using ToolsApp.Components.Validators
 
 <EditForm Model="@colorForm" OnValidSubmit="submitColor">
 
@@ -10,11 +11,13 @@
   <label>
     Name:
     <input type="text" @bind="@colorForm.Name" />
+    <ValidationMessage For="() => colorForm.Name" />
   </label>
 
   <label>
     Hexcode:
     <input type="text" @bind="@colorForm.Hexcode" />
+    <ValidationMessage For="() => colorForm.Hexcode" />
   </label>
 
   <button>@ButtonText</button>
@@ -45,7 +48,8 @@
     public string Name { get; set; } = "";
 
     [Required]
-    [RegularExpression(@"^[0-9a-fA-F]{6}$", ErrorMessage = "Hexcode is RRGGBB")]
+    // [RegularExpression(@"^[0-9a-fA-F]{6}$", ErrorMessage = "Hexcode is RRGGBB")]
+    [HexString(6, ErrorMessage:"Hexcode is RRGGBB")]
     public string Hexcode { get; set; } = "";
   }
 
