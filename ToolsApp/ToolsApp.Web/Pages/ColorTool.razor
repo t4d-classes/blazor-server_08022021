@@ -18,14 +18,14 @@
 
   private IEnumerable<Color> Colors { get; set; } = new List<Color>();
 
-  protected override void OnInitialized()
+  protected override async Task OnInitializedAsync()
   {
-    Colors = colorsService.All();
+    Colors = await colorsService.All();
   }
 
-  private void AppendColor(NewColor color)
+  private async Task AppendColor(NewColor color)
   {
-    Colors = colorsService.Append(color).All();
+    Colors = await (await colorsService.Append(color)).All();
   }
 
 }

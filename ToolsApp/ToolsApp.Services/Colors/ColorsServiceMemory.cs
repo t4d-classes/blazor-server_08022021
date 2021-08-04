@@ -11,12 +11,12 @@ namespace ToolsApp.Services.Colors
   {
     private List<Color> _colors = new();
 
-    public IEnumerable<Color> All()
+    public Task<IEnumerable<Color>> All()
     {
-      return _colors;
+      return Task.FromResult<IEnumerable<Color>>(_colors);
     }
 
-    public IColorsService Append(NewColor color)
+    public Task<IColorsService> Append(NewColor color)
     {
       var newColorId = _colors.Any()
         ? _colors.Max(c => c.Id) + 1 : 1;
@@ -29,20 +29,20 @@ namespace ToolsApp.Services.Colors
         )
       );
 
-      return this;
+      return Task.FromResult<IColorsService>(this);
     }
 
-    public IColorsService Remove(int colorId)
+    public Task<IColorsService> Remove(int colorId)
     {
       _colors.Remove(_colors.Find(c => c.Id == colorId));
-      return this;
+      return Task.FromResult<IColorsService>(this);
     }
 
-    public IColorsService Replace(Color color)
+    public Task<IColorsService> Replace(Color color)
     {
       int colorIndex = _colors.FindIndex(c => c.Id == color.Id);
       _colors[colorIndex] = color;
-      return this;
+      return Task.FromResult<IColorsService>(this);
     }
   }
 }
