@@ -10,7 +10,7 @@
 
   <label>
     Name:
-    <input type="text" @bind="@colorForm.Name" />
+    <input type="text" @bind="@colorForm.Name" @ref="defaultControl" />
     <ValidationMessage For="() => colorForm.Name" />
   </label>
 
@@ -32,7 +32,23 @@
   [Parameter]
   public EventCallback<NewColor> OnSubmitColor { get; set; }
 
+  [Parameter]
+  public ElementReference DefaultControl { get; set; }
+
+  [Parameter]
+  public EventCallback<ElementReference> OnDefaultControlChanged { get; set; }
+
+  private ElementReference defaultControl { get; set; }
+
   private ColorFormModel colorForm = new();
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      await OnDefaultControlChanged.InvokeAsync(defaultControl);
+    }
+  }
 
   private async void submitColor() {
     await OnSubmitColor.InvokeAsync(

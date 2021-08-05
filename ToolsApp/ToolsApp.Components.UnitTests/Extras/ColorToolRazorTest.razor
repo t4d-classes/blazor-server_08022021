@@ -23,8 +23,8 @@
 
     NewColor newColor = new("gray", "cccccc");
 
-    colorsServiceMock.Setup(mock => mock.All())
-      .Returns(Task.FromResult<IEnumerable<Color>>(colors));
+    colorsServiceMock.Setup(mock => mock.All().Result)
+      .Returns(colors);
 
     colorsServiceMock
       .Setup(mock => mock.Append(newColor))

@@ -1,0 +1,51 @@
+﻿@inherits TestContext
+
+@using Microsoft.QualityTools.Testing.Fakes
+@using ToolsApp.Components.Extras
+@using ToolsApp.Components.Extras.Fakes
+
+@code {
+
+  [Fact]
+  public void ParentComponentRendersCorrectly()
+  {
+    // Arrange
+
+    // Act
+    var cut = Render(@<Parent />);
+
+    // Assert
+    cut.MarkupMatches(
+    @<text>
+      <h3>Parent</h3>
+      <h3>Child</h3>
+    </text>
+    );
+  }
+
+  [Fact]
+  public void ParentComponentRendersCorrectlyWithShim()
+  {
+    using (ShimsContext.Create())
+    {
+      // Arrange
+      ShimChild.AllInstances.BuildRenderTreeRenderTreeBuilder = (child, rtb) =>
+      {
+        rtb.OpenElement(0, child.GetType().Name + @"-mocked");
+        rtb.CloseElement();
+      };
+
+      // Act
+      var cut = Render(@<Parent />);
+
+      // Assert
+      cut.MarkupMatches(
+        @<text>
+          <h3>Parent</h3>
+          <child-mocked></child-mocked>
+        </text>
+      );
+    }
+  }
+
+}

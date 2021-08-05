@@ -6,18 +6,23 @@
 @using ToolsApp.Services.Colors
 
 @inject IColorsService colorsService
+@inject IJSRuntime JS
 
 <ToolHeader HeaderText="Color Tool" />
 
 <ColorList Colors="@Colors" OnDeleteColor="RemoveColor" />
 
 <ColorForm ButtonText="Add Color"
-           OnSubmitColor="@AppendColor" />
+           OnSubmitColor="@AppendColor"
+           DefaultControl="defaultControl"
+           OnDefaultControlChanged="setDefaultControl"/>
 
 
 @code {
 
   private IEnumerable<Color> Colors { get; set; } = new List<Color>();
+
+  private ElementReference defaultControl { get; set; }
 
   protected override async Task OnInitializedAsync()
   {
@@ -33,4 +38,11 @@
   {
     Colors = await (await colorsService.Remove(colorId)).All();
   }
+
+  private async Task setDefaultControl(ElementReference control)
+  {
+    defaultControl = control;
+    await JS.InvokeVoidAsync("toolsAppDemo.setFocus", defaultControl);
+  }
+
 }
