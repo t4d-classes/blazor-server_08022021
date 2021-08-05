@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToolsApp.Models", "ToolsApp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToolsApp.Services", "ToolsApp.Services\ToolsApp.Services.csproj", "{BDA24D3D-D606-479B-9FDD-E4037C29E142}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolsApp.DataAccess", "ToolsApp.DataAccess\ToolsApp.DataAccess.csproj", "{BC880E0E-1AB6-4037-B716-129206281596}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToolsApp.DataAccess", "ToolsApp.DataAccess\ToolsApp.DataAccess.csproj", "{BC880E0E-1AB6-4037-B716-129206281596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolsApp.Components.UnitTests", "ToolsApp.Components.UnitTests\ToolsApp.Components.UnitTests.csproj", "{1381C0C6-AAA2-428C-8735-44F6AFF8AFA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{BC880E0E-1AB6-4037-B716-129206281596}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC880E0E-1AB6-4037-B716-129206281596}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC880E0E-1AB6-4037-B716-129206281596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1381C0C6-AAA2-428C-8735-44F6AFF8AFA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1381C0C6-AAA2-428C-8735-44F6AFF8AFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1381C0C6-AAA2-428C-8735-44F6AFF8AFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1381C0C6-AAA2-428C-8735-44F6AFF8AFA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

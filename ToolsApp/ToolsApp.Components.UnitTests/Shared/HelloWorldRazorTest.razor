@@ -1,0 +1,20 @@
+﻿@using ToolsApp.Components.Shared
+
+@code {
+
+  [Fact]
+  public void HelloWorldComponentRendersCorrectly()
+  {
+    // Arrange
+    using var ctx = new TestContext();
+
+    // Act
+    var cut = ctx.Render(@<HelloWorld />);
+
+    // Assert
+    cut.MarkupMatches(@<header>
+      <h1>Hello, World!</h1>
+    </header>);
+  }
+
+}
