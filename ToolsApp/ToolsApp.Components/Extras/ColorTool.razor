@@ -1,0 +1,74 @@
+﻿@using System.ComponentModel.DataAnnotations;
+
+@using Color = ToolsApp.Models.Colors.Color
+@using ToolsApp.Services.Colors
+
+@inject IColorsService colorsService
+
+<header>
+  <h3>Color Tool</h3>
+</header>
+
+<ul>
+  @if (_colors.Any())
+  {
+    @foreach (var color in _colors)
+    {
+      <li>@color.Name @color.Hexcode</li>
+    }
+  }
+  else
+  {
+    <li>No Colors</li>
+  }
+</ul>
+
+
+<EditForm Model="@_colorForm" OnValidSubmit="@HandleValidSubmit">
+
+  <DataAnnotationsValidator />
+
+  <label>
+    Name:
+    <InputText id="name-input" @bind-Value="_colorForm.Name" />
+    <ValidationMessage For="() => _colorForm.Name" />
+  </label>
+
+  <label>
+    Hexcode:
+    <InputText id="hexcode-input" @bind-Value="_colorForm.Hexcode" />
+    <ValidationMessage For="() => _colorForm.Hexcode" />
+  </label>
+
+  <button type="submit">Add Color</button>
+
+</EditForm>
+
+
+@code {
+
+  private IEnumerable<Color> _colors;
+
+  private ColorForm _colorForm = new();
+
+  protected override async Task OnInitializedAsync()
+  {
+    _colors = await colorsService.All();
+  }
+
+  private async Task HandleValidSubmit()
+  {
+    _colors = await (await colorsService.Append(new(_colorForm.Name, _colorForm.Hexcode))).All();
+  }
+
+  private class ColorForm
+  {
+    [Required]
+    public string Name { get; set; }
+
+    [Required]
+    [RegularExpression(@"^[0-9A-Za-z]{6}$", ErrorMessage = "Hexcode is RRGGBB")]
+    public string Hexcode { get; set; }
+  }
+
+}

@@ -1,0 +1,67 @@
+﻿@inherits TestContext
+
+@using Moq
+@using ToolsApp.Components.Extras
+@using ToolsApp.Models.Colors
+@using ToolsApp.Services.Colors
+
+@code {
+
+  [Fact]
+  public void ColorToolAppendsColorCorrectly()
+  {
+    // Arrange
+
+    List<Color> colors = new()
+    {
+      new Color(1, "purple", "ff00ff"),
+      new Color(2, "orange", "ffff00"),
+      new Color(3, "yellow", "00ffff"),
+    };
+
+    var colorsServiceMock = new Mock<IColorsService>();
+
+    NewColor newColor = new("gray", "cccccc");
+
+    colorsServiceMock.Setup(mock => mock.All())
+      .Returns(Task.FromResult<IEnumerable<Color>>(colors));
+
+    colorsServiceMock
+      .Setup(mock => mock.Append(newColor))
+      .Returns(() =>
+      {
+        colors.Add(new(4, newColor.Name, newColor.Hexcode));
+        return Task.FromResult<IColorsService>(colorsServiceMock.Object);
+      });
+
+
+    Services.AddScoped<IColorsService>(_ => colorsServiceMock.Object);
+
+    // Act
+    var cut = Render<ColorTool>(@<ColorTool />);
+
+    var originalListItemCount = cut.FindAll("li").Count();
+
+    var nameInputElement = cut.Find("#name-input");
+    nameInputElement.Change("gray");
+
+    var hexcodeInputElement = cut.Find("#hexcode-input");
+    hexcodeInputElement.Change("cccccc");
+
+    var formElement = cut.Find("form");
+    formElement.Submit();
+
+    cut.Render();
+
+    var currentListItemCount = cut.FindAll("li").Count();
+
+    // Assert
+
+    Assert.Equal(3, originalListItemCount);
+    Assert.Equal(4, currentListItemCount);
+
+    colorsServiceMock.Verify(mock => mock.All(), Times.Exactly(2));
+    colorsServiceMock.Verify(mock => mock.Append(newColor), Times.Once());
+  }
+
+}
