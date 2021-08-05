@@ -1,0 +1,40 @@
+﻿<header>
+  @ChildContent
+</header>
+<ul>
+  @if (Items.Any())
+  {
+    @foreach (var item in Items)
+    {
+      <li>
+        @item
+        <button type="button" @onclick="@(e => OnItemAction.InvokeAsync(item))">
+          @ActionButtonLabel
+        </button>
+      </li>
+    }
+  }
+  else
+  {
+    <li>@EmptyMessage</li>
+  }
+</ul>
+
+@code {
+
+  [Parameter]
+  public string ActionButtonLabel { get; set; } = "Select";
+
+  [Parameter]
+  public string EmptyMessage { get; set; } = "No Items";
+
+  [Parameter]
+  public RenderFragment ChildContent { get; set; } =@<h3>Items</h3>;
+
+  [Parameter]
+  public IEnumerable<string> Items { get; set; } = new List<string>();
+
+  [Parameter]
+  public EventCallback<string> OnItemAction { get; set; }
+
+}
