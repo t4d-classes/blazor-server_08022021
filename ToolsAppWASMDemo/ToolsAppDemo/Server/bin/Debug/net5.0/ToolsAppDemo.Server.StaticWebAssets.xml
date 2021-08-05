@@ -1,5 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Client\bin\Debug\net5.0\wwwroot\" />
-  <ContentRoot BasePath="/" Path="C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Client\obj\Debug\net5.0\scopedcss\bundle\" />
-  <ContentRoot BasePath="/" Path="C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Client\wwwroot\" />
-</StaticWebAssets>
