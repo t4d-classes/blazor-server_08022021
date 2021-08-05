@@ -1,0 +1,61 @@
+@page "/car-tool"
+
+@using ToolsAppDemo.Shared
+@using ToolsAppDemo.Client.Interfaces
+
+@inject ICarsDataService carsDataSvc
+@inject IJSRuntime JS
+
+<ToolHeader HeaderText="Car Tool" />
+<CarTable Cars=@cars EditCarId=@editCarId
+          OnEditCar=@editCar OnDeleteCar=@deleteCar
+          OnSaveCar=@saveCar OnCancelCar=@cancelCar />
+<CarForm ButtonText="Add Car" OnSubmitCar="addCar" />
+<ToolFooter CompanyName="A Cool Company, Inc." />
+
+@code {
+  private IEnumerable<Car> cars = new List<Car>();
+
+  private long editCarId { get; set; } = -1;
+
+  protected override async Task OnInitializedAsync()
+  {
+    await refreshCars();
+  }
+
+  private async Task refreshCars() {
+    cars = await carsDataSvc.All();
+  }
+
+  private async Task addCar(Car car) {
+    await carsDataSvc.AddCar(car);
+    editCarId = -1;
+    await refreshCars();
+  }
+
+  private async Task saveCar(Car car)
+  {
+    await carsDataSvc.SaveCar(car);
+    editCarId = -1;
+    await refreshCars();
+  }
+
+  private async Task deleteCar(long carId)
+  {
+    if (await JS.InvokeAsync<bool>("confirm", "Are you sure you want to delete this car?")) {
+      await carsDataSvc.DeleteCar(carId);
+      editCarId = -1;
+      await refreshCars();
+    }
+  }
+
+  private void editCar(long carId)
+  {
+    editCarId = carId;
+  }
+
+  private void cancelCar()
+  {
+    editCarId = -1;
+  }
+}

@@ -1,0 +1,31 @@
+﻿@page "/color-tool/{colorId:long}"
+
+@using ToolsAppDemo.Client.Interfaces
+@using ToolsAppDemo.Shared
+
+@inject IColorsDataService colorsDataSvc
+
+@if (color != null) { 
+
+  <ColorDetail Color=@color />
+
+} else {
+  <div>Loading...</div>
+}
+
+
+@code {
+
+  [Parameter]
+  public long ColorId { get; set; }
+
+  private Color color;
+
+  protected override async Task OnInitializedAsync()
+  {
+    color = await colorsDataSvc.One(ColorId);
+  }
+
+}
+
+

@@ -1,0 +1,127 @@
+﻿@using ColorModel = DemoApp.Models.Color
+@using UserModel = DemoApp.Models.User
+
+
+<DataGrid @ref="dataGrid"
+          TItem="ColorModel"
+          Data="@Colors"
+          Filterable="true"
+          FilterMethod="DataGridFilterMethod.StartsWith"
+          Editable="true"
+          EditMode="DataGridEditMode.Inline"
+          NewItemDefaultSetter="@onColorNewItemDefaultSetter"
+          RowInserted="@onColorInserted"
+          RowUpdated="@onColorUpdated"
+          RowRemoved="@onColorRemoved"
+          UseInternalEditing="false"
+          ShowPager="true">
+  <DataGridCommandColumn TItem="ColorModel" />
+  <DataGridColumn TItem="ColorModel" Field="User" Caption="Username" Sortable="false" Editable="true" CustomFilter="@onUserNameFilter">
+    <DisplayTemplate>
+      @($"{ (context as ColorModel).User.UserName }")
+    </DisplayTemplate>
+    <EditTemplate>
+      @if (IsAdmin)
+      {
+        <SelectList TItem="UserModel"
+                    TValue="string"
+                    Data="@Users"
+                    TextField="@(item => item.UserName)"
+                    ValueField="@(item => item.Id)"
+                    SelectedValue="@( ((UserModel)context.CellValue).Id )"
+                    SelectedValueChanged="@(val => context.CellValue = Users.SingleOrDefault(u => u.Id == val))">
+        </SelectList>
+      }
+      else
+      {
+        @context.Item.User.UserName
+      }
+    </EditTemplate>
+  </DataGridColumn>
+  <DataGridColumn TItem="ColorModel" Field="Name" Caption="Name" Editable="true" />
+  <DataGridColumn TItem="ColorModel" Field="Hexcode" Caption="Hexcode" Editable="true" />
+</DataGrid>
+
+
+
+@code {
+
+  DataGrid<ColorModel> dataGrid;
+
+  [Parameter]
+  public bool IsAdmin { get; set; } = false;
+
+  [Parameter]
+  public IEnumerable<ColorModel> Colors { get; set; }
+
+  [Parameter]
+  public IEnumerable<UserModel> Users { get; set; }
+
+  [Parameter]
+  public EventCallback<ColorModel> OnAddColor { get; set; }
+
+  [Parameter]
+  public EventCallback<ColorModel> OnSaveColor { get; set; }
+
+  [Parameter]
+  public EventCallback<long> OnDeleteColor { get; set; }
+
+  private void onColorNewItemDefaultSetter(ColorModel color)
+  {
+    color.Id = Colors.Max(c => c.Id) + 1;
+    color.User = Users.First();
+  }
+
+  private async Task onColorInserted(SavedRowItem<ColorModel, Dictionary<string, object>> e)
+  {
+    var insertedColor = new ColorModel()
+    {
+      User = e.Values["User"] as UserModel,
+      Name = e.Values["Name"] as string,
+      Hexcode = e.Values["Hexcode"] as string,
+    };
+
+    await OnAddColor.InvokeAsync(insertedColor);
+
+    await dataGrid.Cancel();
+  }
+
+  private async Task onColorUpdated(SavedRowItem<ColorModel, Dictionary<string, object>> e)
+  {
+    var updatedColor = new ColorModel()
+    {
+      Id = e.Item.Id,
+      User = e.Values["User"] as UserModel,
+      Name = e.Values["Name"] as string,
+      Hexcode = e.Values["Hexcode"] as string,
+    };
+
+    await OnSaveColor.InvokeAsync(updatedColor);
+  }
+
+  private async Task onColorRemoved(ColorModel color)
+  {
+    await OnDeleteColor.InvokeAsync(color.Id);
+  }
+
+  private bool onUserNameFilter(object userObj, object searchValueObj)
+  {
+    if (searchValueObj == null) return true;
+
+    var user = userObj as UserModel;
+    var searchValue = searchValueObj.ToString();
+
+    if (searchValue.Length == 0)
+    {
+      return true;
+    }
+
+    if (user == null)
+    {
+      return false;
+    }
+
+    return user.UserName.StartsWith(searchValue, StringComparison.InvariantCultureIgnoreCase);
+  }
+
+}

@@ -1,0 +1,12 @@
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\bin\Debug\net5.0\ToolsAppDemo.Shared.deps.json
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\bin\Debug\net5.0\ToolsAppDemo.Shared.dll
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\bin\Debug\net5.0\ref\ToolsAppDemo.Shared.dll
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\bin\Debug\net5.0\ToolsAppDemo.Shared.pdb
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ToolsAppDemo.Shared.csproj.AssemblyReference.cache
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ToolsAppDemo.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ToolsAppDemo.Shared.AssemblyInfoInputs.cache
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ToolsAppDemo.Shared.AssemblyInfo.cs
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ToolsAppDemo.Shared.csproj.CoreCompileInputs.cache
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ToolsAppDemo.Shared.dll
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ref\ToolsAppDemo.Shared.dll
+C:\Users\ericwgreene\source\repos\blazor-server_08022021\ToolsAppWASMDemo\ToolsAppDemo\Shared\obj\Debug\net5.0\ToolsAppDemo.Shared.pdb

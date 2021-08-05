@@ -1,0 +1,31 @@
+﻿@using ColorModel = DemoApp.Models.Color
+
+<Table>
+  <TableHeader>
+    <TableRow>
+      <TableHeaderCell>Id</TableHeaderCell>
+      <TableHeaderCell>User Id</TableHeaderCell>
+      <TableHeaderCell>Name</TableHeaderCell>
+      <TableHeaderCell>Hexcode</TableHeaderCell>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    @foreach (var color in colors)
+    {
+      <TableRow>
+        <TableRowCell>@color.Id</TableRowCell>
+        <TableRowCell>@color.User?.UserName</TableRowCell>
+        <TableRowCell>@color.Name</TableRowCell>
+        <TableRowCell>@color.Hexcode</TableRowCell>
+      </TableRow>
+    }
+  </TableBody>
+</Table>
+
+
+@code {
+
+  [Parameter]
+  public IEnumerable<ColorModel> colors { get; set; }
+
+}

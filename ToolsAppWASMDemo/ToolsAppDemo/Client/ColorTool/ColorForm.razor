@@ -1,0 +1,70 @@
+﻿@using ToolsAppDemo.Shared
+@using ColorFormView = ToolsAppDemo.Client.ViewModels.ColorForm
+
+<EditForm Model="colorForm" OnValidSubmit="submitColor">
+
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+
+  <div>
+    <label>
+      Name
+      @*<InputText @bind-Value="colorForm.Name" @ref="defaultControl" />*@
+      <input type="text" @bind="colorForm.Name" @ref="defaultControl" />
+      <ValidationMessage For=@(() => colorForm.Name) style="display:inline;" />
+    </label>
+  </div>
+
+  <div>
+    <label>
+      HexCode
+      <InputText @bind-Value="colorForm.HexCode" />
+      <ValidationMessage For=@(() => colorForm.HexCode) style="display:inline;" />
+    </label>
+  </div>
+
+  <button type="submit">@ButtonText</button>
+</EditForm>
+
+@code {
+
+  [Parameter]
+  public string ButtonText { get; set; } = "Submit Color";
+
+  [Parameter]
+  public EventCallback<Color> OnSubmitColor { get; set; }
+
+  private ColorFormView colorForm = new ColorFormView();
+
+  [Parameter]
+  public ElementReference DefaultControl { get; set; }
+
+  [Parameter]
+  public EventCallback<ElementReference> OnDefaultControlChanged { get; set; }
+
+  private ElementReference defaultControl { get; set; }
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      DefaultControl = defaultControl;
+      await OnDefaultControlChanged.InvokeAsync(DefaultControl);
+    }
+  }
+
+  private async Task submitColor()
+  {
+
+    var color = new Color()
+    {
+      Name = colorForm.Name,
+      HexCode = colorForm.HexCode,
+    };
+
+    await OnSubmitColor.InvokeAsync(color);
+
+    colorForm = new ColorFormView();
+  }
+
+}

@@ -1,0 +1,24 @@
+﻿@using Microsoft.Extensions.Logging
+@using ToolsAppDemo.Shared
+
+@inject ILogger<ColorDetail> logger
+
+<ul>
+  <li>Color Id: @Color.Id</li>
+  <li>Name: @Color.Name</li>
+  <li>HexCode: @Color.HexCode</li>
+</ul>
+
+
+
+@code {
+
+  [Parameter]
+  public Color Color { get; set; }
+
+  protected override void OnInitialized()
+  {
+    logger.LogInformation("Display details for " + Color.Id.ToString());
+  }
+
+}

@@ -1,0 +1,35 @@
+@using ToolsAppDemo.Shared
+
+<tr>
+  <td>@Car.Id</td>
+  <td><a href="/car-tool/@Uri.EscapeUriString(Car.Id.ToString())">@Car.Make</a></td>
+  <td>@Car.Model</td>
+  <td>@Car.Year</td>
+  <td>@Car.Color</td>
+  <td>@Car.Price</td>
+  <td><button type="button" @onclick=@deleteCar>Delete</button></td>
+  <td><button type="button" @onclick=@editCar>Edit</button></td>
+</tr>
+
+@code {
+  [Parameter]
+  public Car Car { get; set; }
+
+  [Parameter]
+  public EventCallback<long> OnDeleteCar { get; set; }
+
+  [Parameter]
+  public EventCallback<long> OnEditCar { get; set; }
+
+
+  private async Task deleteCar()
+  {
+    await OnDeleteCar.InvokeAsync(Car.Id);
+  }
+
+  private async Task editCar()
+  {
+    await OnEditCar.InvokeAsync(Car.Id);
+  }
+
+}

@@ -1,0 +1,71 @@
+@using ToolsAppDemo.Shared
+@using CarFormView = ToolsAppDemo.Client.ViewModels.CarForm
+
+<EditForm Model="carForm" OnValidSubmit="submitCar">
+
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+  <div>
+    <label>
+      Make
+      <InputText @bind-Value="carForm.Make" />
+      <ValidationMessage For=@(() => carForm.Make) style="display:inline;" />
+    </label>
+  </div>
+  <div>
+    <label>
+      Model
+      <InputText @bind-Value="carForm.Model" />
+    </label>
+  </div>
+  <div>
+    <label>
+      Year
+      <InputNumber @bind-Value="carForm.Year" />
+      <ValidationMessage For=@(() => carForm.Year) style="display:inline;" />
+    </label>
+  </div>
+  <div>
+    <label>
+      Color
+      <InputText @bind-Value="carForm.Color" />
+    </label>
+  </div>
+  <div>
+    <label>
+      Price
+      <InputNumber @bind-Value="carForm.Price" />
+    </label>
+  </div>
+  <button type="submit">@ButtonText</button>
+ </EditForm>
+
+  @code {
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Submit Color";
+
+    [Parameter]
+    public EventCallback<Car> OnSubmitCar { get; set; }
+
+    private CarFormView carForm = new CarFormView();
+
+    private async Task submitCar()
+    {
+
+      var car = new Car()
+      {
+        Make = carForm.Make,
+        Model = carForm.Model,
+        Year = carForm.Year,
+        Color = carForm.Color,
+        Price = carForm.Price,
+      };
+
+      await OnSubmitCar.InvokeAsync(car);
+
+      carForm = new CarFormView();
+    }
+
+
+  }

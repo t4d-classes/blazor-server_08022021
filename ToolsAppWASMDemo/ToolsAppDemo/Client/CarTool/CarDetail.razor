@@ -1,0 +1,27 @@
+﻿@using Microsoft.Extensions.Logging
+@using ToolsAppDemo.Shared
+
+@inject ILogger<CarDetail> logger
+
+<ul>
+  <li>Car Id: @Car.Id</li>
+  <li>Make: @Car.Make</li>
+  <li>Model: @Car.Model</li>
+  <li>Year: @Car.Year</li>
+  <li>Color: @Car.Color</li>
+  <li>Price: @Car.Price</li>
+</ul>
+
+
+
+@code {
+
+  [Parameter]
+  public Car Car { get; set; }
+
+  protected override void OnInitialized()
+  {
+    logger.LogInformation("Display details for " + Car.Id.ToString());
+  }
+
+}

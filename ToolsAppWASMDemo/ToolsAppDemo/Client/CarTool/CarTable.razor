@@ -1,0 +1,48 @@
+@using ToolsAppDemo.Shared
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Year</th>
+      <th>Color</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var car in Cars)
+    {
+      @if (EditCarId == car.Id)
+      {
+        <CarEditRow Car=@car OnSaveCar=@OnSaveCar OnCancelCar=@OnCancelCar />
+      }
+      else
+      {
+        <CarViewRow Car=@car OnEditCar=@OnEditCar OnDeleteCar=@OnDeleteCar />
+      }
+    }
+  </tbody>
+</table>
+
+@code {
+  [Parameter]
+  public IEnumerable<Car> Cars { get; set; }
+
+  [Parameter]
+  public long EditCarId { get; set; }
+
+  [Parameter]
+  public EventCallback<long> OnDeleteCar { get; set; }
+
+  [Parameter]
+  public EventCallback<long> OnEditCar { get; set; }
+
+  [Parameter]
+  public EventCallback<Car> OnSaveCar { get; set; }
+
+  [Parameter]
+  public EventCallback OnCancelCar { get; set; }
+}

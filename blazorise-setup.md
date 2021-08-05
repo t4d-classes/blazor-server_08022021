@@ -1,5 +1,9 @@
 # Setup Blazorise
 
+For more information: [https://blazorise.com/](https://blazorise.com/)
+
+## Steps
+
 1. Install the following Nuget Packages:
 
 - ToolsApp.Web Project
@@ -13,7 +17,7 @@
 
 2. Update the `_Host.cshtml` file:
 
-In the `style` block:
+At the bottom of the `head` block:
 
 ```html
 <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
@@ -48,7 +52,7 @@ At the bottom of the `body` block:
 
 5. Add the following code to the `Startup.cs` file.
 
-Add this in the `using`s block of code:
+Add this in the `using`s block of code at the top of the file:
 
 ```
 using Blazorise;
@@ -56,7 +60,7 @@ using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 ```
 
-Add this in the `ConfigureServices` method:
+Add this in the `ConfigureServices` method beneath the SQL Server registration:
 
 ```csharp
 services

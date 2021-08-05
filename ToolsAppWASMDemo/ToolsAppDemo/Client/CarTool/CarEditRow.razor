@@ -1,0 +1,60 @@
+﻿@using ToolsAppDemo.Shared
+@using CarFormView = ToolsAppDemo.Client.ViewModels.CarForm
+
+
+
+<tr>
+  <td>@Car.Id</td>
+  <td><input type="text" @bind="carForm.Make" /></td>
+  <td><input type="text" @bind="carForm.Model" /></td>
+  <td><input type="number" @bind="carForm.Year" /></td>
+  <td><input type="text" @bind="carForm.Color" /></td>
+  <td><input type="number" @bind="carForm.Price" /></td>
+  <td><button type="button" @onclick=@saveCar>Save</button></td>
+  <td><button type="button" @onclick=@cancelCar>Cancel</button></td>
+</tr>
+
+@code {
+  [Parameter]
+  public Car Car { get; set; }
+
+  private CarFormView carForm;
+
+  protected override void OnInitialized()
+  {
+    carForm = new CarFormView()
+    {
+      Make = Car.Make,
+      Model = Car.Model,
+      Year = Car.Year,
+      Color = Car.Color,
+      Price = Car.Price,
+    };
+  }
+
+  [Parameter]
+  public EventCallback<Car> OnSaveCar { get; set; }
+
+  [Parameter]
+  public EventCallback OnCancelCar { get; set; }
+
+
+  private async Task saveCar()
+  {
+
+    await OnSaveCar.InvokeAsync(new Car() {
+      Id = Car.Id,
+      Make = carForm.Make,
+      Model = carForm.Model,
+      Year = carForm.Year,
+      Color = carForm.Color,
+      Price = carForm.Price,
+    });
+  }
+
+  private async Task cancelCar()
+  {
+    await OnCancelCar.InvokeAsync();
+  }
+
+}

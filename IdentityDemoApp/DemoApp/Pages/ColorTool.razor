@@ -1,0 +1,91 @@
+﻿@page "/color-tool"
+
+@attribute [Authorize(Policy = Policies.IsUser)]
+
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using ColorModel = DemoApp.Models.Color;
+@using UserModel = DemoApp.Models.User;
+
+@inject DemoApp.DataAccess.Services.ColorsService colorsSvc
+@inject DemoApp.DataAccess.Services.UsersService usersSvc
+@inject AuthenticationStateProvider authenticationStateProvider
+
+<h2>Color Tool</h2>
+
+<section>
+  <h3>Colors</h3>
+
+  @*<ColorTable colors=@colors />*@
+
+  <ColorDataGrid IsAdmin="@isAdmin"
+                 Colors="@colors"
+                 Users="@users"
+                 OnAddColor="@addColor"
+                 OnSaveColor="@saveColor"
+                 OnDeleteColor="@deleteColor"/>
+</section>
+
+@code {
+
+  bool isAdmin = false;
+  IEnumerable<ColorModel> colors { get; set; } = new List<ColorModel>();
+  IEnumerable<UserModel> users { get; set; } = new List<UserModel>();
+
+  protected override async Task OnInitializedAsync()
+  {
+    isAdmin = await admin();
+    colors = await allColors();
+    users = await usersSvc.AllAsync();
+  }
+
+  private async Task<bool> admin() {
+    var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+    var user = authState.User;
+    return user.Claims.Any(c => c.Type == "IsAdmin");
+  }
+
+  private async Task<List<ColorModel>> allColors()
+  {
+
+    if (isAdmin)
+    {
+      return await colorsSvc.AllAsync();
+    }
+    else
+    {
+      var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+      var userIdClaim = authState.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
+      if (userIdClaim == null)
+      {
+        throw new Exception("Unable to find user id claim.");
+      }
+
+      return await colorsSvc.AllAsync(userIdClaim.Value);
+    }
+
+  }
+
+  private async Task addColor(ColorModel color)
+  {
+    await colorsSvc.AppendAsync(color);
+
+    colors = await allColors();
+  }
+
+  private async Task saveColor(ColorModel color)
+  {
+    await colorsSvc.ReplaceAsync(color);
+
+    colors = await allColors();
+  }
+
+  private async Task deleteColor(long colorId)
+  {
+    await colorsSvc.RemoveAsync(colorId);
+
+    colors = await allColors();
+  }
+
+}

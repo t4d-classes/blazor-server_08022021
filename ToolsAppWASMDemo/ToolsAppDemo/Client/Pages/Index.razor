@@ -1,0 +1,53 @@
+﻿@page "/"
+
+@using ToolsAppDemo.Client.Interfaces
+
+@inject IJSRuntime JS
+@inject IColorsDataService colorsDataSvc
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<button type="button" @onclick="doIt">Do It</button>
+
+<button type="button" @onclick="upperCase">Upper Case</button>
+
+<div>Text Value: @textValue</div>
+
+<button type="button" id="refresh-colors-button">Refresh Colors</button>
+
+
+@code {
+
+  private string textValue = "psea";
+
+  private DotNetObjectReference<IColorsDataService> colorsDataSvcRef;
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender)
+    {
+      colorsDataSvcRef = DotNetObjectReference.Create(colorsDataSvc);
+      await JS.InvokeVoidAsync("toolsAppDemo.setupColorsRefresh", colorsDataSvcRef);
+    }
+  }
+
+  public void Dispose()
+  {
+    colorsDataSvcRef?.Dispose();
+  }
+
+  private async Task doIt()
+  {
+    await JS.InvokeVoidAsync("toolsAppDemo.doIt");
+  }
+
+  private async Task upperCase()
+  {
+    textValue = await JS.InvokeAsync<string>("toolsAppDemo.ucase", textValue);
+  }
+}

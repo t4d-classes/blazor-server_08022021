@@ -1,0 +1,49 @@
+﻿@page "/color-tool"
+
+@using ToolsAppDemo.Client.Interfaces
+@using ToolsAppDemo.Client.Services
+
+@inject IColorsDataService colorsDataSvc
+@inject ScreenBlockerService screenBlockerSvc
+@inject IJSRuntime JS
+
+@using ToolsAppDemo.Shared
+
+
+<ToolHeader HeaderText="Color Tool" />
+<ColorList Colors=@(colors.Where(c => c.Id > 1)) />
+<ColorForm ButtonText="Add Color" OnSubmitColor="addColor"
+           DefaultControl="defaultControl" OnDefaultControlChanged="setDefaultControl" />
+
+@code {
+  private IEnumerable<Color> colors = new List<Color>();
+
+  private ElementReference defaultControl { get; set; }
+
+  protected override async Task OnInitializedAsync()
+  {
+    await refreshColors();
+  }
+
+  private async Task refreshColors()
+  {
+    await screenBlockerSvc.BlockScreen();
+    colors = await colorsDataSvc.All();
+    await screenBlockerSvc.UnblockScreen();
+  }
+
+  private async Task addColor(Color color)
+  {
+    await colorsDataSvc.AddColor(color);
+    await refreshColors();
+  }
+
+  private async Task setDefaultControl(ElementReference control)
+  {
+    defaultControl = control;
+    await JS.InvokeVoidAsync("toolsAppDemo.setFocus", defaultControl);
+  }
+
+
+
+}

@@ -1,0 +1,39 @@
+﻿@page "/car-tool/{carId:long}"
+
+@using ToolsAppDemo.Client.Interfaces
+@using ToolsAppDemo.Shared
+
+@inject NavigationManager navMgr  
+@inject ICarsDataService carsDataSvc
+
+@if (car != null) { 
+
+  <CarDetail Car=@car />
+
+  <button type="button" @onclick=@gotoCarTool>Car Tool</button>
+
+} else {
+  <div>Loading...</div>
+}
+
+
+@code {
+
+  [Parameter]
+  public long CarId { get; set; }
+
+  private Car car;
+
+  protected override async Task OnInitializedAsync()
+  {
+    car = await carsDataSvc.One(CarId);
+  }
+
+  private void gotoCarTool()
+  {
+    navMgr.NavigateTo("/car-tool");
+  }
+
+}
+
+
