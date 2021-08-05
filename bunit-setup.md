@@ -26,3 +26,18 @@ For more information: [https://bunit.dev/](https://bunit.dev/)
     Note: Consider "docking" the Test Explorer in the same tabbed panel as the Solution Explorer.
 
 6. Delete the `UnitTest1.cs` file from the new `ToolsApp.Components.UnitTests` project.
+
+7. Add a new file named `_Imports.razor` to the root of the new `ToolsApp.Components.UnitTests` project.
+
+Copy and paste the following content into the file:
+
+```csharp
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Microsoft.Extensions.DependencyInjection
+@using AngleSharp.Dom
+@using Xunit
+@using Bunit
+@using Bunit.TestDoubles
+```

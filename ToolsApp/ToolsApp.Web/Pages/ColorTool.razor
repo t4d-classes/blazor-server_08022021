@@ -9,7 +9,7 @@
 
 <ToolHeader HeaderText="Color Tool" />
 
-<ColorList Colors="@Colors" />
+<ColorList Colors="@Colors" OnDeleteColor="RemoveColor" />
 
 <ColorForm ButtonText="Add Color"
            OnSubmitColor="@AppendColor" />
@@ -29,4 +29,8 @@
     Colors = await (await colorsService.Append(color)).All();
   }
 
+  private async Task RemoveColor(int colorId)
+  {
+    Colors = await (await colorsService.Remove(colorId)).All();
+  }
 }

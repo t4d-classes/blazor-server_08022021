@@ -1,4 +1,5 @@
 ﻿@using Color = ToolsApp.Models.Colors.Color
+@using BlazoriseColor = Blazorise.Color
 
 <ul>
   @if (Colors.Count() == 0)
@@ -9,14 +10,59 @@
   {
     @foreach (var color in Colors)
     {
-      <li>@color.Name - @color.Hexcode</li>
+      <li>
+        @color.Name - @color.Hexcode
+        <button type="button"
+          @onclick="@( () => ConfirmDeleteColor(color))">X</button>
+      </li>
     }
   }
 </ul>
+
+<Modal @ref="modalRef">
+  <ModalContent Centered="true">
+    <ModalHeader>
+      <ModalTitle>Confirm Delete</ModalTitle>
+      <CloseButton />
+    </ModalHeader>
+    <ModalBody>
+      Are you sure you want to delete color @RequestDeleteColor?.Name ?
+    </ModalBody>
+    <ModalFooter>
+      <Button Color="BlazoriseColor.Primary" Clicked="@CancelDeleteColor">No</Button>
+      <Button Color="BlazoriseColor.Danger" Clicked="@PerformDeleteColor">Yes</Button>
+    </ModalFooter>
+  </ModalContent>
+</Modal>
 
 @code {
 
   [Parameter]
   public IEnumerable<Color> Colors { get; set; } = new List<Color>();
+
+  [Parameter]
+  public EventCallback<int> OnDeleteColor { get; set; }
+
+  private Color RequestDeleteColor;
+
+  private Modal modalRef;
+
+  private void ConfirmDeleteColor(Color color)
+  {
+    RequestDeleteColor = color;
+    modalRef.Show();
+  }
+
+  private async Task PerformDeleteColor()
+  {
+    modalRef.Hide();
+    await OnDeleteColor.InvokeAsync(RequestDeleteColor.Id);
+  }
+
+  private void CancelDeleteColor()
+  {
+    modalRef.Hide();
+    RequestDeleteColor = null;
+  }
 
 }
